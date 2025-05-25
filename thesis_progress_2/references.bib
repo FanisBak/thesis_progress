@@ -1,0 +1,136 @@
+@article{NJANDA2024200095,
+title = {People counting using IR-UWB radar sensors and machine learning techniques},
+journal = {Systems and Soft Computing},
+volume = {6},
+pages = {200095},
+year = {2024},
+issn = {2772-9419},
+doi = {https://doi.org/10.1016/j.sasc.2024.200095},
+url = {https://www.sciencedirect.com/science/article/pii/S2772941924000243},
+author = {Ange Joel Nounga Njanda and Jocelyn Edinio Zacko Gbadoubissa and Emanuel Radoi and Ado Adamou Abba Ari and Roua Youssef and Aminou Halidou},
+keywords = {Multi-human detection, Machine learning, Ultra-wideband radar, Feature engineering, Wavelet transform},
+abstract = {This study aims to detect and count people using impulse radio ultra-wideband radar and machine learning algorithms. However, the data quality, difficulty distinguishing human signals from noise and clutter, and instances where human presence is not detected make it challenging to count multiple humans. To overcome these challenges, we apply wavelet transformation to reduce signal size and use simple moving averages to eliminate noise. Next, we create features based on statistical and entropic properties of the signal and apply several classification algorithms, including ANN, Random Forest, KNN, XGBOOST, and multiple linear regression, to predict the number of people present. Our findings reveal that using the ANN classifier with the Daubechies 4 (db4) wavelet provides better results than other classifiers, with an accuracy rate of 99%. Additionally, filtering the data improves accuracy, and labeling the data after extracting essential characteristics significantly improves the model’s accuracy.}
+}
+
+@article{ERDEN2015127,
+title = {A robust system for counting people using an infrared sensor and a camera},
+journal = {Infrared Physics \& Technology},
+volume = {72},
+pages = {127-134},
+year = {2015},
+issn = {1350-4495},
+doi = {https://doi.org/10.1016/j.infrared.2015.07.019},
+url = {https://www.sciencedirect.com/science/article/pii/S1350449515001887},
+author = {Fatih Erden and Ali Ziya Alkar and Ahmet Enis Cetin},
+keywords = {Infrared sensors, Markov models, Multi-modal systems, People counting},
+abstract = {In this paper, a multi-modal solution to the people counting problem in a given area is described. The multi-modal system consists of a differential pyro-electric infrared (PIR) sensor and a camera. Faces in the surveillance area are detected by the camera with the aim of counting people using cascaded AdaBoost classifiers. Due to the imprecise results produced by the camera-only system, an additional differential PIR sensor is integrated to the camera. Two types of human motion: (i) entry to and exit from the surveillance area and (ii) ordinary activities in that area are distinguished by the PIR sensor using a Markovian decision algorithm. The wavelet transform of the continuous-time real-valued signal received from the PIR sensor circuit is used for feature extraction from the sensor signal. Wavelet parameters are then fed to a set of Markov models representing the two motion classes. The affiliation of a test signal is decided as the class of the model yielding higher probability. People counting results produced by the camera are then corrected by utilizing the additional information obtained from the PIR sensor signal analysis. With the proof of concept built, it is shown that the multi-modal system can reduce false alarms of the camera-only system and determines the number of people watching a TV set in a more robust manner.}
+}
+
+@article{Xie2023,
+   abstract = {Ultralow-resolution infrared (IR) array sensors offer a low cost, energy efficient, and privacy-preserving solution for people counting, with applications, such as occupancy monitoring and visitor flow analysis in private and public spaces. Previous work has shown that deep learning (DL) can yield superior performance on this task. However, the literature was missing an extensive comparative analysis of various efficient DL architectures for IR array-based people counting, that considers not only their accuracy but also the cost of deploying them on memory- and energy-constrained Internet of Things (IoT) edge nodes. Such analysis is key for system designers, since it helps them select the most appropriate DL model given the constraints of their target hardware. In this work, we address this need by comparing six different DL architectures on a novel data set composed of IR images collected from a commercial 8×8 array, which we made openly available. With a wide architectural exploration of each model type, we obtain a rich set of Pareto-optimal solutions, spanning cross-validated balanced accuracy scores in the 55.70%-82.70% range. When deployed on a commercial microcontroller (MCU) by STMicroelectronics, the STM32L4A6ZG, these models occupy 0.41-9.28kB of memory, and require 1.10-7.74 ms per inference, while consuming 17.18- 120.43 μJ of energy. Our models are significantly more accurate than a previous deterministic method (up to +39.9%), while being up to 3.53× faster and more energy efficient. So, our work serves also as a demonstration that DL can not only achieve higher accuracy but also higher efficiency compared to classic algorithms for this type of task. Further, our models' accuracy is comparable to state-of-the-art DL solutions on similar resolution sensors, despite a much lower complexity. All our models enable continuous, real-time inference on an MCU-based IoT node, with years of autonomous operation without battery recharging.},
+   author = {Chen Xie and Francesco Daghero and Yukai Chen and Marco Castellano and Luca Gandolfi and Andrea Calimera and Enrico MacIi and Massimo Poncino and Daniele Jahier Pagliari},
+   doi = {10.1109/JIOT.2023.3263290},
+   issn = {23274662},
+   issue = {15},
+   journal = {IEEE Internet of Things Journal},
+   title = {Efficient Deep Learning Models for Privacy-Preserving People Counting on Low-Resolution Infrared Arrays},
+   volume = {10},
+   year = {2023}
+}
+
+@article{Cokbas2020,
+   abstract = {Smart buildings use occupancy sensing for various tasks ranging from energy-efficient HVAC and lighting to space-utilization analysis and emergency response. We propose a people counting system which uses a low-resolution thermal sensor. Unlike previous people-counting systems based on thermal sensors, we use an overhead tripwire configuration at entryways to detect and track transient entries or exits. We develop two distinct people counting algorithms for this configuration. To evaluate our algorithms, we have collected and labeled a low-resolution thermal video dataset using the proposed system. The dataset, the first of its kind, is public and available for download1. We also propose new evaluation metrics that are more suitable for systems that are subject to drift and jitter.},
+   author = {Mertcan Cokbas and Prakash Ishwar and Janusz Konrad},
+   doi = {10.1109/CVPRW50498.2020.00052},
+   issn = {21607516},
+   booktitle = {IEEE Computer Society Conference on Computer Vision and Pattern Recognition Workshops},
+   title = {Low-resolution overhead thermal tripwire for occupancy estimation},
+   volume = {2020-June},
+   year = {2020}
+}
+
+@article{10.1117/1.JEI.32.4.042106,
+author = {Sanjay Roka and Manoj Diwakar and Prabhishek Singh and Pragya Singh},
+title = {{Anomaly behavior detection analysis in video surveillance: a critical review}},
+volume = {32},
+journal = {Journal of Electronic Imaging},
+number = {4},
+publisher = {SPIE},
+pages = {042106},
+keywords = {anomaly detection, multivariate Gaussian fully convolution adversarial autoencoder, generative adversarial network, Machine learning, Video, Gallium nitride, Education and training, Video surveillance, Object detection, Cameras, Surveillance, Detection and tracking algorithms, Performance modeling},
+year = {2023},
+doi = {10.1117/1.JEI.32.4.042106},
+URL = {https://doi.org/10.1117/1.JEI.32.4.042106}
+}
+
+@article{HUSSEIN2024100169,
+title = {Crowd anomaly estimation and detection: A review},
+journal = {Franklin Open},
+volume = {8},
+pages = {100169},
+year = {2024},
+issn = {2773-1863},
+doi = {https://doi.org/10.1016/j.fraope.2024.100169},
+url = {https://www.sciencedirect.com/science/article/pii/S2773186324000999},
+author = {A. Hussein and M.W. Raed and A. Al-Shaikhi and M. Mohandes and B. Liu},
+keywords = {Crowd analysis, Stampede, Radio frequency identification, Wireless sensor networks, Mobile crowdsensing, Convolutional neural network},
+abstract = {Abnormal crowd detection and estimation are critical in video surveillance for ensuring public safety and preventing stampedes. Owing to occlusions and blind spots, traditional video surveillance methods cannot detect, estimate, or locate people in dense moving crowds with acceptable accuracy, posing a major challenge. Therefore, this study aims to provide an in-depth analysis of the most recent advancements in recognizing abnormal behaviors in large crowds. We present a comprehensive literature review on crowd anomaly detection using disruptive technologies such as radio frequency identification, wireless sensor networks, Wi-Fi, and Bluetooth low energy, employing device-free noninvasive algorithms based on received signal strength indicator variations to detect the speed and direction of a moving crowd to predict the onset of a stampede. Furthermore, this study presents the most recent findings on mobile crowdsensing based on edge computing, urban dynamics, optical flow, and machine learning techniques. Finally, we critically analyze the major challenges, shedding light on opportunities and directions for future work.}
+}
+
+@article{Langer,
+  author={Langer, Tim and Waschneck, Bernd and Partzsch, Johannes and Kelber, Florian and Mayr, Christian},
+  booktitle={2022 26th International Conference on Pattern Recognition (ICPR)}, 
+  title={Hardware-Efficient Ultrasonic Entrance Counting: Comparing Different Machine Learning Approaches}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={755-761},
+  keywords={Energy consumption;Ultrasonic variables measurement;Pulse measurements;Energy measurement;Signal processing algorithms;Estimation;Machine learning;Entrance Counting;Ultrasound;Machine Learning;Edge Computing;Low Power;TinyML;Smart Buildings},
+  doi={10.1109/ICPR56361.2022.9955643}
+}
+
+@article{choi,
+author = {Choi, Jae-Ho and Kim, Ji-Eun and Kim, Kyung-Tae},
+year = {2021},
+month = {09},
+pages = {1-1},
+title = {Deep Learning Approach for Radar-Based People Counting},
+volume = {PP},
+journal = {IEEE Internet of Things Journal},
+doi = {10.1109/JIOT.2021.3113671}
+}
+
+@article{choi2,
+author = {Choi, Jae-Ho and Kim, Ji-Eun and Jeong, Nam-Hoon and Kim, Kyung-Tae and Jin, Seung-Hyun},
+year = {2020},
+month = {09},
+pages = {1-5},
+title = {Accurate People Counting Based on Radar: Deep Learning Approach},
+doi = {10.1109/RadarConf2043947.2020.9266496}
+}
+
+@article{Violatto,
+author = {Violatto, Giulia and Pandharipande, Ashish},
+year = {2020},
+month = {02},
+pages = {1-1},
+title = {Anomaly Classification in People Counting and Occupancy Sensor Systems},
+volume = {PP},
+journal = {IEEE Sensors Journal},
+doi = {10.1109/JSEN.2020.2976547}
+}
+
+@article{HERZER2003598,
+title = {Magnetic materials for electronic article surveillance},
+journal = {Journal of Magnetism and Magnetic Materials},
+volume = {254-255},
+pages = {598-602},
+year = {2003},
+note = {Proceedings of the 15th International Conference on Soft Magnetic Materials (SMM15)},
+issn = {0304-8853},
+doi = {https://doi.org/10.1016/S0304-8853(02)00930-7},
+url = {https://www.sciencedirect.com/science/article/pii/S0304885302009307},
+author = {Giselher Herzer},
+keywords = {Amorphous systems—soft magnetic, Anisotropy—magnetoelastic, perpendicular, planar, Domain pattern variations, Magnetomechanical coupling, Non-linear susceptibility, Sensors},
+abstract = {Sensors for electronic article surveillance have meanwhile become a mass application for sophisticated soft magnetic materials. A specifically designed magnetization behavior allows to reliably detect the tiny little sensors over distances up to several meters and to distinguish them from other magnetic objects. The article surveys the most widespread systems and gives an insight into the material technology behind these security labels.}
+}
