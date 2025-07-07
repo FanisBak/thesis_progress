@@ -25,8 +25,7 @@ Athens University of Economics and Business}
 \section{Abstract}
 \title{\textbf{Time Series Forecasting and Large Language Models.}} \\
 \\
-This thesis explores advanced approaches to time series forecasting, with a focus on predicting visitor counts in retail stores. The study integrates both traditional deep learning techniques and cutting-edge transformer-based architectures. Initially, a neural network with Long Short-Term Memory (LSTM) layers is developed to model temporal dependencies in historical visitor data. To benchmark and extend performance, two state-of-the-art Large Language Models designed for time series forecasting are employed: Time-GPT from Nixtla and Chronos Time-LLM. These models leverage pretraining on large temporal datasets to enable accurate zero-shot and few-shot forecasting. Through evaluation, the thesis demonstrates that while the LSTM-based model captures sequential patterns well enough, more improved models like TimeGPT  significantly enhance prediction accuracy, particularly in multi-step, low-data scenarios and long forecasting horizons. The results show the growing imoprtance of pretrained time-aware language models in retail analytics and open new pathways for scalable, data-efficient forecasting systems.
-This thesis explores advanced approaches to time series forecasting, with a focus on predicting visitor counts in retail stores. The study integrates both traditional deep learning techniques and cutting-edge transformer-based architectures. Initially, a neural network with Long Short-Term Memory (LSTM) layers is developed to model temporal dependencies in historical visitor data. To benchmark and extend performance, two state-of-the-art Large Language Models designed for time series forecasting are employed: Time-GPT from Nixtla and Chronos Time-LLM. These models leverage pretraining on large temporal datasets to enable accurate zero-shot and few-shot forecasting. Through evaluation, the thesis demonstrates that while the LSTM-based model captures sequential patterns well enough, more improved models like TimeGPT  significantly enhance prediction accuracy, particularly in multi-step, low-data scenarios and long forecasting horizons. The results show the growing imoprtance of pretrained zero-shot models in retail analytics and open new pathways for scalable, data-efficient forecasting systems ,that are even simplier to use.
+This thesis explores advanced approaches to time series forecasting, with a focus on predicting visitor counts in retail stores. The study integrates both traditional deep learning techniques and cutting-edge transformer-based architectures. Initially, a neural network with Long-Short-Term Memory (LSTM) layers is developed to model temporal dependencies in historical visitor data. To benchmark and extend performance, two state-of-the-art Large Language Models designed for time series forecasting are employed: Time-GPT from Nixtla and Chronos Time-LLM. These models leverage pre-training on large temporal datasets to enable accurate zero-shot and few-shot forecasting. Through evaluation, the thesis demonstrates that while the LSTM-based model captures sequential patterns well enough, more improved models like TimeGPT significantly enhance prediction accuracy, particularly in multistep, low-data scenarios and long forecasting horizons. The results show the growing importance of pre-trained zero-shot models in retail analytics and open new pathways for scalable, data-efficient forecasting systems,which are even simpler to use.
 
 \section{Introduction}
 \subsection{Background and Motivation}
@@ -34,7 +33,7 @@ Time series forecasting is a critical component in many data-driven decision-mak
 \\
 Over the years, time series forecasting has evolved from traditional statistical methods such as ARIMA to more advanced machine learning and deep learning models. Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks have gained popularity due to their ability to model sequential dependencies. More recently, Transformer-based models have been successfully adapted to time series tasks, with architectures such as Time-GPT and Chronos Time-LLM offering powerful alternatives by leveraging the strengths of large language models (LLMs) in sequence modeling.\\
 \\
-My motivation for this thesis stems from my internship, during which I worked on forecasting the number of visitors to retail stores using real-world data. I encountered various limitations in traditional models when applied to high-frequency, nonlinear visitor patterns. This experience highlighted the potential benefits of integrating pre-trained transformer models for time series forecasting and inspired the present work.
+My motivation for this thesis stems from my internship, during which I worked on forecasting the number of visitors to retail stores using real-world data. I encountered various limitations in LSTM models when applied to high-frequency, nonlinear visitor patterns. Some of which were, the need for additional features, large dataset to train on, in order to capture seasonality and trends but even so it often missed the higher and lower values which resulted in an increase of the models error. This experience highlighted the potential benefits of integrating pre-trained foundation transformer models for time series forecasting and inspired the present work.
 
 \subsection{Problem Statement}
 The core objective of this thesis is to forecast the number of visitors to a retail store for the upcoming week, based on historical hourly data. The task involves multi-step forecasting, requiring the model to generate predictions for several time steps into the future.\\
@@ -53,7 +52,7 @@ The main objectives of this thesis are as follows:
 \end{itemize}
 
 \begin{itemize}
-    \item To evaluate the performance of the Chronos Time-LLM model, with particular attention to its architectural limitation of 64-step predictions.
+    \item To evaluate the performance of various Chronos Time-LLM models.
 \end{itemize}
 
 \begin{itemize}
@@ -61,7 +60,7 @@ The main objectives of this thesis are as follows:
 \end{itemize}
 
 \begin{itemize}
-    \item To visualize the forecast outputs and interpret the ability of each model to capture temporal dynamics.
+    \item To visualize the forecast outputs and interpret the ability of each model to capture temporal patterns.
 \end{itemize}
 
 \begin{itemize}
@@ -72,35 +71,35 @@ The main objectives of this thesis are as follows:
 \newpage
 \section{Literature Review}
 \subsection{Time Series Forecasting: Traditional Approaches}
-Traditional time series forecasting methods rely on well-established statistical models, most notably Autoregressive Integrated Moving Average (ARIMA) and its seasonal counterpart SARIMA. These models are widely used due to their simplicity and interpretability when applied to univariate, stationary data. They model the dependencies within the time series through autoregression, differencing, and moving average terms.\\
+Traditional time series forecasting methods rely on well-established statistical models, most notably Autoregressive Integrated Moving Average (ARIMA) and its seasonal counterpart SARIMA. These models are widely used due to their simplicity and interpretability when applied to univariate, stationary data. They model the dependencies within the time series through autoregression, differencing, and moving average terms \cite{box1970time,hyndman2015forecasting}.\\
 \\
-Another common approach involves Exponential Smoothing (ETS) and the Holt-Winters method, which are suitable for series with trend and seasonal components. These models emphasize recent observations and use smoothing factors to adjust level, trend, and seasonality over time. However, they rely on strong linearity assumptions and struggle when faced with nonstationarity or sudden structural changes\\
+Another common approach involves Exponential Smoothing (ETS) and the Holt-Winters method, which are suitable for series with trend and seasonal components. These models emphasize recent observations and use smoothing factors to adjust level, trend, and seasonality over time \cite{hyndman2015forecasting}. However, they rely on strong linearity assumptions and struggle when faced with nonstationarity or sudden structural changes\\
 \\
-More recently, tools like Facebook Prophet have been developed to make time series forecasting accessible and robust. Prophet uses an additive model combining trend, seasonality, and holiday effects, and it is particularly suited to business time series with recurring patterns and outliers. Nevertheless, Prophet shares limitations with other classical approaches in that it assumes additive components and lacks mechanisms to model complex non-linear relationships or interactions among variables\\
+More recently, tools like Facebook Prophet have been developed to make time series forecasting accessible and robust. Prophet uses an additive model combining trend, seasonality, and holiday effects, and it is particularly suited to business time series with recurring patterns and outliers \cite{taylor2018prophet}. Nevertheless, Prophet shares limitations with other classical approaches in that it assumes additive components and lacks mechanisms to model complex non-linear relationships or interactions among variables\\
 \\
-A major limitation of these traditional models is their reliance on domain-specific preprocessing and manual tuning. They are not well-suited for high-dimensional or multivariate time series, and their performance often degrades when applied to noisy or irregular datasets. These shortcomings have prompted increased interest in machine learning approaches that can learn patterns from data automatically.
+A major limitation of these traditional models is their reliance on domain-specific preprocessing and manual tuning. They are not well-suited for high-dimensional or multivariate time series, and their performance often degrades when applied to noisy or irregular datasets. These shortcomings have prompted increased interest in machine learning approaches that can learn patterns from data automatically \cite{kaloudi2023review}.
 
 \subsection{Machine Learning in Time Series}
-Machine learning (ML) techniques have gained traction in time series forecasting for their ability to model nonlinear dependencies and accommodate multivariate inputs. Unlike classical models, ML methods do not require prior assumptions about the data's distribution or structure. This makes them suitable for a broad range of forecasting tasks, especially in domains with irregular, nonstationary, or high-dimensional data.\\
+Machine learning (ML) techniques have gained traction in time series forecasting for their ability to model nonlinear dependencies and accommodate multivariate inputs. Unlike classical models, ML methods do not require prior assumptions about the data distribution or structure. This makes them suitable for a broad range of forecasting tasks, especially in domains with irregular, nonstationary, or high-dimensional data \cite{li2023survey,smith2023compare}.\\
 \\
-Among the most widely used models are Random Forests, Gradient Boosting Machines (GBMs) such as XGBoost, Support Vector Regression (SVR), and Decision Trees. These algorithms are trained on lag-based features, rolling statistics, calendar variables, and other derived features that encode time-dependent behavior. In particular, XGBoost has demonstrated strong performance in both short-term and long-term forecasting tasks due to its efficiency and ability to handle missing data.\\
+Among the most widely used models are Random Forests, Gradient Boosting Machines (GBMs) such as XGBoost, Support Vector Regression (SVR), and Decision Trees. These algorithms are trained on lag-based features, rolling statistics, calendar variables, and other derived features that encode time-dependent behavior. In particular, XGBoost has demonstrated strong performance in both short-term and long-term forecasting tasks due to its efficiency and ability to handle missing data \cite{li2023survey}.\\
 \\
 Despite their flexibility, machine learning models treat time series forecasting as a standard supervised regression problem. They rely heavily on feature engineering to capture temporal dynamics since they do not natively model sequential dependencies. Additionally, they often require substantial labeled data and lack built-in mechanisms for uncertainty quantification, which limits their use in risk-sensitive applications.\\
 \\
-As time series tasks have grown in complexity — including longer forecasting horizons, complex seasonality, and dependence on exogenous variables — researchers have turned to deep learning methods. These approaches can model sequential behavior directly and learn rich representations from raw time series data without requiring extensive feature design.
+As time series tasks have grown in complexity — including longer forecasting horizons, complex seasonality, and dependence on exogenous variables — researchers have turned to deep learning methods. These approaches can model sequential behavior directly and learn rich representations from raw time series data without requiring extensive feature design\cite{lim2020deep,benitez2021experimental}.
 
 \subsection{Deep Learning for Sequential Data (RNNs, LSTMs)}
-Deep learning has emerged as a powerful approach for time series forecasting due to its capacity to learn complex temporal patterns directly from raw data. Unlike classical models, which rely on manual feature engineering or statistical assumptions, deep learning models can automatically extract hierarchical and long-term dependencies through sequential architectures. Two of the most prominent neural network types for sequential modeling are Recurrent Neural Networks (RNNs) and their improved variant, Long Short-Term Memory (LSTM) networks.\\
+Deep learning has emerged as a powerful approach for time series forecasting due to its capacity to learn complex temporal patterns directly from raw data \cite{ghojogh2023rnnsurvey}. Unlike classical models, which rely on manual feature engineering or statistical assumptions, deep learning models can automatically extract hierarchical and long-term dependencies through sequential architectures. Two of the most prominent neural network types for sequential modeling are Recurrent Neural Networks (RNNs) and their improved variant, Long Short-Term Memory (LSTM) networks.\\
 \\
 \title{\textbf{Recurrent Neural Networks}}\\
 \\
 RNNs are designed specifically to handle sequential input by maintaining an internal memory that captures information about previous time steps. At each time step, an RNN receives an input vector and updates a hidden state based on both the new input and the state from the previous time step. This feedback loop allows the network to build representations that are dependent on temporal order.
 \\
-However, RNNs face major challenges in practice. Chief among these is the vanishing gradient problem, which inhibits the network's ability to learn long-range dependencies across sequences. This issue is particularly severe when forecasting time series data with long memory effects, such as seasonal patterns or delayed responses to external variables.\\
+However, RNNs face major challenges in practice. Chief among these is the vanishing gradient problem, which inhibits the network's ability to learn long-range dependencies across sequences \cite{garg2022machine,mdpi2021gradient}. This issue is particularly severe when forecasting time series data with long memory effects, such as seasonal patterns or delayed responses to external variables \cite{garg2022machine,ghojogh2023rnnsurvey}.\\
 \\
 These limitations have led to the development of more robust architectures, particularly LSTMs, which introduce mechanisms to mitigate the degradation of learning across time.\\
 \\
-\title{\textbf{Long-Short Term Mermory Networks (LSTM)}}\\
+\title{\textbf{Long-Short Term Memory Networks (LSTM)}}\\
 LSTM networks were proposed by Hochreiter and Schmidhuber in 1997 as an extension of standard recurrent neural networks (RNNs), specifically designed to mitigate the vanishing gradient problem. They introduce a memory cell that can maintain information over long sequences, regulated by three gating mechanisms:
 
 \begin{itemize}
@@ -115,13 +114,13 @@ LSTM networks were proposed by Hochreiter and Schmidhuber in 1997 as an extensio
     \item \textbf{Output gate}: decides how much of the memory should be passed to the next layer.
 \end{itemize}
 
-This internal gating structure allows LSTMs to model long-term dependencies and sequential relationships in data more effectively than simple RNNs, which often fail to retain relevant temporal context beyond a few steps. \cite{garg2022machine}\\
+This internal gating structure allows LSTMs to model long-term dependencies and sequential relationships in data more effectively than simple RNNs \cite{ghojogh2023rnnsurvey}, LSTMs and GRUs have been shown both experimentally and theoretically to overcome gradient degradation, retaining learning ability over extended time spans \cite{mdpi2021gradient}. They sparked a surge of RNN-based time series models until the rise of attention-based methods \cite{ghojogh2023rnnsurvey}.\\
 \\
 LSTMs have shown excellent performance in a wide range of time series forecasting tasks, including financial market prediction, electricity load forecasting, and retail demand forecasting. Their strength lies in their ability to process entire sequences of data, automatically learning patterns such as trend, seasonality, and lag relationships without requiring manual feature engineering. This makes them highly adaptable to real-world, multivariate, and nonlinear time series. \cite{garg2022machine}\\
 \\
-Several studies have benchmarked LSTM performance against classical methods and traditional machine learning models. The consensus is that LSTMs tend to outperform these models in long-horizon forecasting, particularly when the underlying temporal dynamics are complex and the relationships between input and output are nonlinear or nonstationary. In the benchmark study by Masine et al. (2021), deep learning models including LSTMs outperformed ARIMA and tree-based models on multiple datasets, especially when the length of the forecast horizon increased.\\
+LSTMs have shown excellent performance in diverse forecasting tasks, including financial market prediction, electricity load forecasting, retail demand forecasting, and hydrological time series \cite{neptune2019rnn,lstm_hydrology2024}. Benchmark studies—such as Masine et al. (2021)—consistently report LSTM superiority over classical methods and tree-based machine learning models, especially for long-horizon forecasts and complex nonlinear data \cite{researchgate2024sales,finance2023compare}. In finance, LSTM models outperform ARIMA by substantial margins on longer horizons \cite{siami2018arima_vs_lstm}.\\
 \\
-Despite their advantages, LSTMs are not without limitations. They are computationally intensive, require a large amount of training data to generalize well, and are sensitive to hyperparameter choices such as the number of layers, learning rate, and input sequence length. In addition, training LSTMs can be unstable without proper regularization and optimization strategies. This has led to a growing interest in alternative sequence models, particularly Transformer-based architectures, which forgo recurrence entirely and rely on attention mechanisms for sequence modeling — an approach discussed in the next section.\\
+Despite their advantages, LSTMs are not without limitations. They are computationally intensive, require a large amount of training data to generalize well, and are sensitive to hyperparameter choices such as the number of layers, learning rate, and input sequence length. Training can be unstable without proper regularization (e.g., dropout, layer normalization) and optimization (e.g., gradient clipping) \cite{vanishinggradientwiki2019,ghojogh2023rnnsurvey}. This has led to a growing interest in alternative sequence models, particularly Transformer-based architectures, which forgot recurrence entirely and rely on attention mechanisms for sequence modeling — an approach discussed in the next section.\\
 \\
 In my own implementation, I followed the architecture described in Deep Learning with Python by François Chollet \cite{Francois}. The model used two LSTM layers with dropout regularization and a dense output layer with 72 neurons to predict future values in a multivariate time series. I standardized the input data and added temporal features like hour, week, day of month or week, feeding multiple historical time steps ($1440 hours = 120days$) to predict a future window of 72 hours (a week) of future values. This design aligns with common practices in the literature and ensures that the model learns and recognizes temporal patterns to result to accurate future outcomes.
 
@@ -138,7 +137,7 @@ These features can give an edge in comparison to more traditional models.\\
 \includegraphics[width=1\linewidth]{images/foundation_model.png}
     \label{fig:mesh1}
     \caption{TimeGPT was trained in the largest collection of publicly available time series, and can
-forecast unseen time series without re-training its parameters.}
+forecast unseen time series without re-training its parameters. \cite{garza2023timegpt1}}
 \end{figure}
 \\
 
@@ -146,14 +145,14 @@ forecast unseen time series without re-training its parameters.}
 \subsubsection{Architecture and Training}
 TimeGPT is built on the Transformer-based architecture with self-attention mechanisms. It uses historical data and makes a forecast ,while adding local positional encoding.The model can process different historical value windows and forecasting horizons, set by the user. The architecture consists of an encoder-decoder structure with multiple layers, with residual connections and normalization between all layers. The transformer-based architecture is the one that offers this high adaptability to TimeGPT model. Although this architecture uses the same principles as large language models (LLMs), TimeGPT is not based on an existing LLM.\\
 \\
-TimeGPT was trained on over 100 bilion data points, or as the authors say, the largest collection of publicly available time series to their knowledge. This collection includes datasets for a varied range of domains like finance, economics, demographics, healthcare, weather, IoT sensor data, energy, web, traffic, sales, transport and banking. 
+TimeGPT was trained on over 100 billion data points, or as the authors say, the largest collection of publicly available time series to their knowledge. This collection includes datasets for a varied range of domains like finance, economics, demographics, healthcare, weather, IoT sensor data, energy, web, traffic, sales, transport and banking. 
 
 \begin{figure}[h]
 \includegraphics[width=1\linewidth]{images/timegpt_prediction.png}
     \label{fig:mesh1}
     \caption{Inference of new time series. TimeGPT takes the historical values of the target values and
 additional exogenous variables as inputs to produce the forecasts. We rely on conformal predictions
-based on historic errors to estimate prediction intervals.}
+based on historic errors to estimate prediction intervals.\cite{garza2023timegpt1}}
 \end{figure}
 
 \newpage
@@ -195,26 +194,26 @@ However, it functions as a "black box", offering lower flexibility than statisti
 
 
 \subsection{Chronos Time-LLM}
-Chronos is a foundation model for time series forecasting that uses Large Language models (LLMs) like T5 and GPT-2, to forecast time series through the novel yet simple idea of treating time series values as language tokens. Chronos uses the architecture of decoders-only transformers, similar to GPT models, but adapts the input format and  tokenization to process numerical and temporal information insted of text sequences.
+Chronos is a foundation model for time series forecasting that uses Large Language models (LLMs) like T5 and GPT-2, to forecast time series through the novel yet simple idea of treating time series values as language tokens. Chronos uses the architecture of decoders-only transformers, similar to GPT models, but adapts the input format and  tokenization to process numerical and temporal information instead of text sequences.
 
 \subsubsection{Architecture and Training}
 Chronos includes a collection of LLMs, pre-trained on hundreds of time series datasets from a diverse range of application domains. Unlike other models Chronos handles time series data as a language-like stream of values Input sequences are tokenized and formatted as prompts, with numeric values treated as tokens and time information encoded through context windows \cite{ansari2024chronos}.\\
 \\
 Chronos Time-LLM model makes next-step predictions, using masked values and sliding windows during pretraining. It uses no explicit inductive bias for seasonality, periodicity, or stationarity -relying just on the generalization of large transformer decoders and transfer learning.\\
 \\
-The model is provided a small historical window of data, and it continues the sequence by predicting the future values. This ,like TimeGPT model, enables zero-shot and few-shot forecasting without fine-tuning or additional training, making the pretrained model able to be reused of varius tasks.
+The model is provided a small historical window of data, and it continues the sequence by predicting the future values. This ,like TimeGPT model, enables zero-shot and few-shot forecasting without fine-tuning or additional training, making the pretrained model able to be reused of various tasks.
 
 \subsubsection{Performance}
-Chronos Time-LLM model was evaluated for both its in-domain and zero-shot generalization. It was compared with classic sstatistical models like ARIMA, ETS, Theta and with pretained LLM-based models like (PromptCast, LLMTime. GPT4TS, Time-LLM).\\
+Chronos Time-LLM model was evaluated for both its in-domain and zero-shot generalization. It was compared with classic statistical models like ARIMA, ETS, Theta and with pretained LLM-based models like (PromptCast, LLMTime. GPT4TS, Time-LLM).\\
 \\
-When evaluated on datasets that Chronos was trained on, it outperformed all classical and deep learning baselines on the majority of tasks. Even smaller variants of Chronos like Chronos-S beat large models like PatchTST and DeepAR. It even outperformed models like GPT4TS and Time-LLM, which require tast-specific fine-tuning.\\
+When evaluated on datasets that Chronos was trained on, it outperformed all classical and deep learning baselines on the majority of tasks. Even smaller variants of Chronos like Chronos-S beat large models like PatchTST and DeepAR. It even outperformed models like GPT4TS and Time-LLM, which require task-specific fine-tuning.\\
 \\
-Moreover, on datasets unseen during training from Chronos model used it's zero-shot generalization and was near or exceeded deep learning models trained on the specific dataset (PatchTST,TFT) and LLM-based models like LLMTime and PropmptCast that require engineered promprts.\\
+Moreover, on datasets unseen during training from Chronos model used it's zero-shot generalization and was near or exceeded deep learning models trained on the specific dataset (PatchTST,TFT) and LLM-based models like LLMTime and PropmptCast that require engineered prompts.\\
 \\
 However, one of the key findings of this thesis is that the forecasting accuracy of Chronos deteriorates significantly beyond 64 time steps, due to the model’s reliance on a fixed input context window. Unlike TimeGPT, which supports long-horizon forecasting via fine-tuning, Chronos relies purely on pattern continuation, making it more suitable for short to moderate forecasting horizons.
 
 \subsubsection{Strenghts and Limitations}
-Chronos shows several strenghts for time series forecasting, like:
+Chronos shows several strengths for time series forecasting, like:
 
 \begin{itemize}
     \item Prompt-based inference through in-context learning.
@@ -238,13 +237,13 @@ While Chronos shows strong results in settings where rapid, general-purpose fore
 
 \subsection{Summary}
 \subsubsection{Machine Learning Models}
-Machine learning models like XGBoost, Support Vector Regression, and Random Forests had higher predictive performance than classical models, by using nonlinear modeling, nevertheless these models lack temporal awarness and requiring feature engineering to capture temporal patterns.
+Machine learning models like XGBoost, Support Vector Regression, and Random Forests had higher predictive performance than classical models, by using nonlinear modeling, nevertheless these models lack temporal awareness and requiring feature engineering to capture temporal patterns.
 
 \subsubsection{Deep Learning Models}
-Deep learning methods like LSTM networks, needs long training with large datasets to capture long-term temporal patterns. Are computationally expensive during training and also need feature engineering and achitectural fine-tuning. But with the right dataset and fine-tuning, LSTM's can have good results.
+Deep learning methods like LSTM networks, needs long training with large datasets to capture long-term temporal patterns. Are computationally expensive during training and also need feature engineering and architectural fine-tuning. But with the right dataset and fine-tuning, LSTM's can have good results.
 
 \subsubsection{Transformer and Foundation Models}
-The most recent researches found are focused on foundation models for time series, including TimeGPT and Chronos Time-LLM. TimeGPT shows the power of fine-tuned, pre-trained models on varius datasets and long-range forecasting, while Chronos introduces a novel use of leanring via prompt-based inference. These models ,and specially TimeGPT, shows a new way for time series forecasting with simplicity, no training using its zero-shot capabilities, and flexibility with fine-tuning, one-hot
+The most recent researches found are focused on foundation models for time series, including TimeGPT and Chronos Time-LLM. TimeGPT shows the power of fine-tuned, pre-trained models on various datasets and long-range forecasting, while Chronos introduces a novel use of learning via prompt-based inference. These models ,and specially TimeGPT, shows a new way for time series forecasting with simplicity, no training using its zero-shot capabilities, and flexibility with fine-tuning, one-hot
 features and exogenous variables.
 
 \section{Dataset Description and Preprocessing}
@@ -262,7 +261,7 @@ In order to get the number of visitors that were inside the store each hour, I u
 \begin{itemize}
     \item and hour is 't'
 \end{itemize}
-\\
+
 Firstly, I calculated the Net Flow for each hour:
 \begin{equation}
 NetFlow = IN[t] - OUT[t]
@@ -278,12 +277,12 @@ The original dataset included records only for the hours that the store was open
 But this lead to missing values were created in the \texttt{visitors} column for the newly added time slots. Since the store was closed during these hours and no visitors could be present, I filled these missing values with zeros. This approach assured the continuity of the \texttt{datetime} column as required from Time-GPT model and kept the working hours of the store unchanged.
 
 \subsection{Feature Engineering}
-To help the models better capture temporal patterns and the seasonalities in the data, such as daily weekly, and monthly cycles, I added several time-related features. Specifically, I extracted the hour of the day, day of the week, calendar week, day of monthn, and month from the \texttt{datetime} column.
+To help the models better capture temporal patterns and the seasonality in the data, such as daily weekly, and monthly cycles, I added several time-related features. Specifically, I extracted the hour of the day, day of the week, calendar week, day of month, and month from the \texttt{datetime} column.
 \\
 The way to handle these features varied for each model. For the LSTM model I created
-new columns for these temporal features and icluded them as additional inputs to the network. This allowed the model to learn patterns associated with specific time segments, like higher visitors during certain hours or days.\\
+new columns for these temporal features and included them as additional inputs to the network. This allowed the model to learn patterns associated with specific time segments, like higher visitors during certain hours or days.\\
 \\
-For the other two models, Time-GPT and Chronos Time-LLM, it wan not necessary to add these features as column. Both models support one-hot encoding for time-based features, which enhances their ability to generalize temporal relationships across diiferen series and even domains.
+For the other two models, Time-GPT and Chronos Time-LLM, it was not necessary to add these features as column. Both models support one-hot encoding for time-based features, which enhances their ability to generalize temporal relationships across different series and even domains.
 
 \subsection{Data Splitting and Normalization}
 For the LSTM model, I split the dataset into two parts: 75 percent was used for training and the remaining 25 percent for testing. Prior to training, I standardized the features to improve model performance and ensure numerical stability. The standardization was applied using the formula:
@@ -307,7 +306,7 @@ The entire implementation was in Python and made of use libraries like Pandas, N
 \subsection{LSTM Model}
 The LSTM model architecture and training approach were adapted from examples presented in the course lecture by Professor P.Louridas and from Deep Learning with Python (2nd Edition) by François Chollet \cite{Francois}. \\
 \\
-LSTMs are type of recurrent neural netwoks (RNN), specifically designed to capture long-term dependencies and sequencial patterns, making them well-suited for time series predictions tasks.
+LSTMs are type of recurrent neural networks (RNN), specifically designed to capture long-term dependencies and sequential patterns, making them well-suited for time series predictions tasks.
 
 \subsubsection{Model Architecture}
 The LSTM model was designed for multivariate predictions that takes as input historical data for the visitor counts (along with the other time features) and predicts the next 72 values in the series. Since the data are in hour level 72 value predictions, means 6 $days$ (= 72 $PredictionHours$ / 12 $HoursStoreIsOpen$). This prediction window and hours in the dataset was chosen to avoid having to predict Sundays and hours that the store is closed.
@@ -343,9 +342,15 @@ To train the LSTM neural network, sliding windows were created. Each input inclu
 \subsubsection{Training Configuration}
 The model was compiled using Adam optimizer and the Mean Absolute Error (MAE) as the loss function. The training was performed for 50 epochs with a batch size of 256. Early stopping was also applied on the validation loss to prevent overfitting.\\
 \\
-The hyperparameters such as window size, hidden units per layer, dropout rate, and learnign rate were tuned experimentally and manual changed to better the evaluation on the validation set and opitize the loss function.\\
+The hyperparameters such as window size, hidden units per layer, dropout rate, and learning rate were tuned experimentally and manual changed to better the evaluation on the validation set and optimize the loss function.\\
 \\
-The loss functions for the training can be seen below:
+During training, it is noticeable that the validation loss is consistently lower than the training loss. This is generally not a problem and can even be a good sign, as long as the validation loss is not dramatically lower — which could signal an issue like data leakage or an imbalanced validation set.\\
+\\
+In our case, we observe that this difference exists even from the early epochs. One possible explanation could be the use of regularization techniques like Dropout, which are active during training and temporarily reduce the model’s capacity, thus increasing training loss. However, Dropout might not be the primary factor here.\\
+\\
+Upon inspecting the dataset more carefully, I found that the training set (which makes up 75 percent  of the total data) contains more outliers and noisy samples than the validation set. This is likely because a larger sample increases the chance of including rare or unusual patterns. As a result, the model is effectively being “asked harder questions” during training. In contrast, the validation set contains cleaner or more typical examples, leading to lower loss values during evaluation.\\
+\\
+The loss functions for the training can be seen bellow:
 
 \begin{figure}[h]
 \includegraphics[width=1\linewidth]{images/loss_function.png}
@@ -353,10 +358,11 @@ The loss functions for the training can be seen below:
     \caption{Loss Function}
 \end{figure}
 
+\newpage
 \subsubsection{Forecasting Procedure}
-After the training, the model was used to make a forecast on the test dataset using the rolling window approach. At each step, the model predicted the next time point based  on the most recent sequence of observations. Then the predictions were compared with the ground truth values to make an evaluation for the perfomance of the models forecast, using the Mean Absolute Error (MAE). \\
+After the training, the model was used to make a forecast on the test dataset using the rolling window approach. At each step, the model predicted the next time point based  on the most recent sequence of observations. Then the predictions were compared with the ground truth values to make an evaluation for the performance of the models forecast, using the Mean Absolute Error (MAE). \\
 \\
-The model proved to be a valuabled baseline to compare against the newer and most advansted Time-GPT and Time-LLM models, providing usefull insights into the benefits of Deep Learning against more transormer-based approaches.
+The model proved to be a valuable baseline to compare against the newer and most advanced Time-GPT and Time-LLM models, providing useful insights into the benefits of Deep Learning against more transformer-based approaches.
 
 \begin{figure}[h]
 \includegraphics[width=1\linewidth]{images/neural_forecast.png}
@@ -385,7 +391,7 @@ To generate forecasts using Time-GPT, input data must be structured as a Pandas 
 •	y: The corresponding numerical values (i.e., hourly visitors).\\
 •	unique-id: An identifier for each time series (in this case, a single ID was used for the entire dataset).\\
 \\
-Additionally, I specified the forecasting horizon (h) to match the future time window I aimed to predict, and used a window of  168 hours (= 7 * 24)  meaning a week. I also created two new one - hot columns ('is-sunday' and 'store-closed') for the model to understand the days that are Sundays when the store is usualy closed and if it is actually closed since there are Sundays that the store remains open like the weeks of December before Christmas. These two columns are used a future exogenous variables to provide more information the model about future events in order to predict accurately during known events that are going to happen.\\
+Additionally, I specified the forecasting horizon (h) to match the future time window I aimed to predict, and used a window of  168 hours (= 7 * 24)  meaning a week. I also created two new one - hot columns ('is-sunday' and 'store-closed') for the model to understand the days that are Sundays when the store is usually closed and if it is actually closed since there are Sundays that the store remains open like the weeks of December before Christmas. These two columns are used a future exogenous variables to provide more information the model about future events in order to predict accurately during known events that are going to happen.\\
 \\
 Moreover the model was finetuned using the Mean Absolute Error as the loss function of the model and also made of use the date features provided by Nixtla in there models as an option. These features were ('dayofyear','dayofweek','month', 'day','week','year', 'hour') which are one – hot features that help the model understand patterns that appear through the dates when they happen multiple times.\\
 \\
@@ -413,7 +419,7 @@ However, some limitations were also observed:\\
 Despite these constraints, Time-GPT represents a robust and flexible solution for time series forecasting, and its integration served as a valuable benchmark in our comparative evaluation.
 
 \begin{figure}[h]
-\includegraphics[width=1\linewidth]{images/timegpt_forecast.png}
+\includegraphics[scale=0.36]{images/timegpt_forecast.png}
     \label{fig:mesh1}
     \caption{Time-GPT Forecast}
 \end{figure}
@@ -423,36 +429,35 @@ Despite these constraints, Time-GPT represents a robust and flexible solution fo
 Chronos is a time series forecasting framework developed by Amazon that integrates the capabilities of large language models (LLMs) with temporal data modeling. Unlike traditional neural networks or even general-purpose transformers, Chronos is specifically fine-tuned and pre-trained on a diverse set of time series datasets. In this section, I describe the process of implementing the Chronos Time-LLM model for my dataset, discuss its integration pipeline, and highlight the specific adaptations made to ensure compatibility with our retail visitors time series dataset.\\
 
 \subsubsection{Model Selection and Configuration}
-The Chronos framework offers several pre-trained checkpoints, each one optimized for different forecast horizons. For this thesis, the general-purpose chronos-t5-base model was selected due to its strong performance across a wide variety of datasets in prior evaluations as the authors and creators of the model has sawn. The zero-shot setting allows for evaluating the model’s generalization capability without domain-specific fine-tuning, which makes it a highly applicable pre-trained Time-LLM.
+The Chronos framework offers several pre-trained checkpoints, each one optimized for different forecast horizons. For this thesis, the general-purpose chronos-t5-base model and then bolt-small was selected due to its strong performance across a wide variety of datasets in prior evaluations as the authors and creators of the model has shown. The zero-shot setting allows for evaluating the model’s generalization capability without domain-specific fine-tuning, which makes it a highly applicable pre-trained Time-LLM.
 
 \subsubsection{Forecast Generation}
-For each test sample, the Chronos model generated a multi-step forecast using a rolling window approach. That means, predictions were made for a defined horizon of 64 hours into the future, and the forecast window advanced incremental to cover the full evaluation period.\\
+For each test sample, the Chronos model generated a multi-step forecast using a rolling window approach. That means, predictions were made for a defined horizon of 64 hours for the chronos-t5-base model  into the future, while bolt-small model was able to predict 168 hours as TimeGPT model, and the forecast window advanced incremental to cover the full evaluation period.\\
 \\
 These forecasts were then aggregated and used for comparison against the LSTM and Time-GPT models, as detailed in Chapter 7.
 
 \subsubsection{Limitations and Observations}
-While Chronos Time-LLM demonstrated strong generalization and required minimal training effort, it presented several practical challenges:\\
-\\
-•	Forecast Latency: Forecast generation was slower compared to Time-GPT model, especially when using large context windows.\\
-•	Hidden Internal Mechanisms: Due to its LLM-based architecture, understanding how the model derives its forecasts is less transparent compared to standard deep learning models.\\
-\\
+While Chronos Time-LLM required minimal training effort, only bolt-small model demonstrated strong generalization and both of them presented several practical challenges:
+
+\begin{itemize}
+    \item Forecast Latency: Forecast generation was slower compared to Time-GPT model, especially when using large context windows.
+\end{itemize}
+
+\begin{itemize}
+    \item Hidden Internal Mechanisms: Due to its LLM-based architecture, understanding how the model derives its forecasts is less transparent compared to standard deep learning models.
+\end{itemize}
+
 Nevertheless, its ability to produce accurate forecasts without task-specific tuning represents a major advancement in the field of time series forecasting.
 
-
-\begin{figure}[h]
-\includegraphics[width=1\linewidth]{images/chronos_forecast.png}
-    \label{fig:mesh1}
-    \caption{Chronos Forecast}
-\end{figure}
-
-
+\newpage
 \section{Results and Evaluation}
 In this chapter, the results of the evaluations are been presented and compared for the models implemented in this thesis: LSTM, Time-GPT and Chronos Time-LLM. I evaluate, and discuss the specific strengths, weaknesses, and best-use scenarios for each approach.
 
 \subsection{Forecasting Performance}
-Time-GPT demonstrated the strongest overall performance, particularly in forecasting in longer horizons. It consistently had accurate predictions even in long miltistep predictions. In contrast, Chronos Time-LLM showed a noticeable drop in precision after the 64th forecasting step, which is a known limitation of its architecture -for the $chronos-t5-base$ model at least. Even within this limit, Chronos showed a higher Mean Absolute Error (MAE) compared to Time-GPT, indicating less stable short-term performance. \\
+\subsubsection{Chronos-t5-base Model}
+Time-GPT demonstrated the strongest overall performance, particularly in forecasting in longer horizons. It consistently had accurate predictions even in long multistep predictions. In contrast, Chronos Time-LLM showed a noticeable drop in precision after the 64th forecasting step, which is a known limitation of its architecture -for the $chronos-t5-base$ model at least. Even within this limit, Chronos showed a higher Mean Absolute Error (MAE) compared to Time-GPT, indicating less stable short-term performance. \\
 \\
-The LSTM model, trained sprecifically on the dataset, captured general temporal trends and was better than the transormer-based model,Chronos, in accuracy. It offered flexibility and full control over the model design and training process. The experimentation for the optimal layers, hidden units and dropout layers alongside with the additional temporal features gave the edge to the LSTM model.\\
+The LSTM model, trained specifically on the dataset, captured general temporal trends and was better than the transformer-based model,Chronos, in accuracy. It offered flexibility and full control over the model design and training process. The experimentation for the optimal layers, hidden units and dropout layers alongside with the additional temporal features gave the edge to the LSTM model.\\
 If Chronos Time-LLM model was better finetuned and one-hot encoding was used it might got a closer MAE as the LSTM model's or even lower.\\
 \\
 These observations highlight that Time-GPT is better suited dor applications requiring longer Forecasting windows and minimal training effort. There is a big gap between Time-GPT and the other two models. The LSTM model comes second and Chronos with a relatively small difference but both are promising in getting better with more features and finetuning.\\
@@ -460,6 +465,33 @@ These observations highlight that Time-GPT is better suited dor applications req
 Although, LSTM model has high flexibility and complete control even in training both pretrained models support finetuning and exogenous variables (features).\\
 Chronos model lacks in long horizon forecasting since any more than 64 steps, is not even recommended by the authors.
 
+\begin{figure}[h]
+\includegraphics[width=1\linewidth]{images/chronos_forecast.png}
+    \label{fig:mesh1}
+    \caption{chronos-t5-base model forecast}
+\end{figure}
+
+\newpage
+\subsubsection{Chronos bolt-small Model}
+The Chronos bolt-small model demonstrated strong forecasting performance, with high accuracy and excellent generalization across time. It effectively captured seasonal patterns and temporal structures, such as the non visitor activity on Sundays and during store closure hours —phenomena that the non-fine-tuned version of TimeGPT struggled to model without the use of exogenous features or fine-tuning.\\
+\\
+When comparing the two non-fine-tuned models, Chronos bolt-small clearly outperformed TimeGPT, particularly in recognizing periodicity and trend shifts. This result highlights bolt-small’s capacity to generalize from pretrained knowledge alone, even in the absence of task-specific adjustments.\\
+\\
+Furthermore, unlike the earlier chronos-t5-base model, which suffered from a fixed 64-step prediction window limitation, bolt-small removed this constraint entirely. Not only did it offer a more flexible forecasting horizon, but it also yielded substantially lower error rates—achieving nearly half the error of the chronos-t5-base model under the same evaluation conditions.
+
+\begin{figure}[h]
+\includegraphics[width=1\linewidth]{images/chronos_notuned.png}
+    \label{fig:mesh1}
+    \caption{Chronos bolt-small model forecast}
+\end{figure}
+
+An additional observation worth noting is that the fine-tuned version of Chronos bolt-small achieved only marginally better performance than its zero-shot counterpart. This underscores the strength of foundation models in zero-shot forecasting scenarios, where minimal configuration or training is required to achieve high accuracy. The results suggest that for many practical applications, fine-tuning may not be necessary—simplifying deployment and reducing computational overhead. 
+
+\begin{figure}[h]
+\includegraphics[width=1\linewidth]{images/chronos-finetuned.png}
+    \label{fig:mesh1}
+    \caption{Chronos bolt-small finetuned model forecast}
+\end{figure}
 
 \subsection{Quantitative Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -474,12 +506,16 @@ Chronos model lacks in long horizon forecasting since any more than 64 steps, is
 \textbf{Model} & \textbf{MAE} \\
 \hline
 LSTM Neural Network  & 15.70 \\
-\hline
+
 Time-GPT Tuned  & 5.08 \\
-\hline
+
 Time-GPT Not Tuned &  9.49 \\
-\hline
-Chronos Time-LLM  & 18.18 \\
+
+Chronos-t5-base  & 18.18 \\
+
+Chronos bolt-small  & 7.17 \\
+
+Chronos bolt-small finetuned  & 6.95 \\
 \hline
 
 \end{tabular}
@@ -488,7 +524,7 @@ Chronos Time-LLM  & 18.18 \\
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Time-GPT outperformed the other two models. LSTM model ranked second but remained highly less precise than Time-GPT, while Chronos Time-LLM model showed slightly higher error rates than LSTM model, and the higher of them all, particularly in scenarios of longer prediction windows.
+Time-GPT when finetuned and with exogenous variables outperformed the other. LSTM model ranked second but remained highly less precise than Time-GPT, while Chronos chronos-t5-base model showed slightly higher error rates than LSTM model, and the higher of them all. However, Chronos bolt-small non finetuned model outperformed Time-GPT non finetuned, while bolt-small finetuned was slightly better that it's counterpart. Still finetuned Time-GPT and with exogenous variable had the lower MAE making the best of them all. 
 
 \subsection{Visual Comparison of Forecasts}
 To complement the numerical evaluation, I plotted the predicted values from each model against the actual visitor counts.
@@ -502,16 +538,20 @@ To complement the numerical evaluation, I plotted the predicted values from each
 \end{itemize}
 
 \begin{itemize}
-    \item \textbf{Chronos Time-LLM}: Was on the right track but often missed lower values. Better finetuning could result to higher accuracy.
+    \item \textbf{Chronos chronos-t5-base}: Was on the right track but often missed lower values.
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Chronos bolt-small} Strong zero-shot inference, capturing seasonality and trends even without finetuning.
 \end{itemize}
 
 \subsubsection*{A closer look at the Visual Comparison Forecasts}
-As we compare Time-GPT finetuned and Chronos Time-LLM models, we can see that both models tend to capture the temporal sequence well enough and not decline an lot from the ground truth values for the most part of the prediction. The models miss some values in the same hours. Having a closer look it proved that these hours that both models miss the visitors count are the middle of the day and this sudden drop of visitors is hard to predict. However, Time-GPT when finetuned predicts closer to the true value than Chronos. That means that captures trends better.
+As we compare Time-GPT finetuned and Chronos Time-LLM models, we can see that both models tend to capture the temporal sequence well enough and not decline a lot from the ground truth values for the most part of the prediction. The models miss some values in the same hours. Having a closer look it proved that these hours that both models miss the visitors count are the middle of the day and this sudden drop of visitors is hard to predict. However, Time-GPT when finetuned and added exogenous variables, predicts closer to the true value than Chronos bolt-small finetuned. That means that captures trends more precisely.
 
  \begin{figure}[h]
-\includegraphics[width=1\linewidth]{images/TimeGPT_versus_Chronos_Forecast.png}
+\includegraphics[width=1\linewidth]{images/timegpt_versus_bolt.png}
     \label{fig:mesh1}
-    \caption{Time-GPT versus Chronos Time-LLM}
+    \caption{Time-GPT versus Chronos bolt-small}
 \end{figure}
 
 It is interesting to see the difference that finetuning makes to the Time-GPT model.\\
@@ -527,6 +567,9 @@ This also proves that even non tuned Time-GPT is well trained and can easily cap
     \caption{Time-GPT finetuned versus Time-GPT not finetuned Forecast}
 \end{figure}
 
+However, between the two versions of Chronos bolt-small (finetuned and not), the difference is marginal so even if we visually compare them, it will be hard to see any change.\\
+\\
+
 At last, LSTM neural network model captures most of the values very well but it lacks during the very high and low values and this rises its MAE.
 
 \begin{figure}[h]
@@ -536,27 +579,32 @@ At last, LSTM neural network model captures most of the values very well but it 
 \end{figure}
 \newpage
 \subsection{Discussion of Results}
- The evaluation results clearly highlight the strenghts and weaknesses of each forecasting model. Among all models tested, the \textbf{Time-GPT (tuned)} version achived the best performance, with a \textbf{Mean Absolute Error (MAE) of 5.08}. This demonstrates the effectivness of fine-tunning Time-GPT for the specific structure and behavior of the dataset. Its ability to adapt to temporal patterns and fluctuations in visitors traffic led to highly accurate forecasts.\\
+ The evaluation results clearly highlight the strengths and weaknesses of each forecasting model. Among all models tested, the \textbf{Time-GPT (finetuned)} version achieved the best performance, with a \textbf{Mean Absolute Error (MAE) of 5.08}. This demonstrates the effectiveness of fine-tuning and adding exogenous variables to Time-GPT for the specific structure and behavior of the dataset. Its ability to adapt to temporal patterns and fluctuations in visitors traffic led to highly accurate forecasts.\\
  \\
- The non-tuned version of Time-GPT, also performed weel, achieving a MAE of 9.49. While slightly less accurate, it still outperformed both Chronos and LSTM model, showing that even without customization, Time-GPT is capable of capturing well enough seasonal patterns in a zero-shot setting. This makes it a powerful tool under almost any circumstance.\\
+ The non-tuned version of Time-GPT, also performed well, achieving a MAE of 9.49. While less accurate, it still outperformed both Chronos-t5-base and LSTM model, showing that even without customization, Time-GPT is capable of capturing well enough seasonal patterns in a zero-shot setting. This makes it a powerful tool under almost any circumstance.\\
  \\
- On the other hand, the Cronos Time-LLM model resulted in the \textbf{highest error}, with a MAE of 18.18. Although Chronos is designed for general-purpose time series forecasting, its performance degraded over long horizons. As noted in earlier sections, Chronos is limited to 64-step prediction windows, and after that its accuracy declines as it exceeds this threshold. Even within valid input ranges, Chronos tends to mainly over-estimate values. It is possible to lower the error of the model drastically by finetuning it. Overall it is a good predicting model that captures temporal patterns well enough with easy and quick implementation.\\
+ However,the model that showed the best zero-shot capability is Chronos bolt-small with a MAE of 7.17 outperforming TimeGPT by about 2 visitors per hour. This difference is not very high, but as we can see from figure 10, non finetuned TimeGPT model does not capture the days that the store is closed, like Sundays, even though it captures seasonality and trends very well. Also, Chronos bolt-small model when finetuned has a slight decrease in the MAE, scoring 6.95, only about 3 percent difference from it's non finetuned version.\\
+ \\
+ On the other hand, the Cronos-t5-base model resulted in the \textbf{highest error}, with a MAE of 18.18. Although Chronos is designed for general-purpose time series forecasting, its performance degraded over long horizons. As noted in earlier sections, Chronos-t5-base is limited to 64-step prediction windows, and after that its accuracy declines as it exceeds this threshold. Even within valid input ranges, Chronos tends to mainly over-estimate values. It is possible to lower the error of the model by finetuning it but without big difference. Overall it is a predicting model that captures temporal patterns well enough with easy and quick implementation.\\
  \\
 The LSTM neural network, with a MAE of 15.70, provided reasonable results considering its simplicity compared to the other models and the need for training. It captured the overall structure of daily visitors traffic but often missed the high and low values along with sudden changes or spikes.\\
-Unlike the other two models, the LSTM requiers feature engineering, careful tuning, and more extensive preprocessing. However, it remains a useful option when full control over the modeling pipeline is needed.\\
+Unlike the other two models, the LSTM requires feature engineering, careful tuning, and more extensive preprocessing. However, it remains a useful option when full control over the modeling pipeline is needed.\\
 \\
 In summary:
 \begin{itemize}
     \item \textbf{Time-GPT finetuned} offers the best accuracy and generalization.
 \end{itemize}
 \begin{itemize}
-    \item \textbf{Time-GPT not finetuned} provides strong performance out of the box, useful for fast, zero-shot forecasting.
+    \item \textbf{Chronos bolt-small} has excellent generalization and captures seasonality, trends and stationarity even without any finetuning, better than Time-GPT non finetuned.
 \end{itemize}
 \begin{itemize}
-    \item \textbf{Chronos Time-LLM} is more limited in forecasting range and overall precision but captures trends well.
+    \item \textbf{Time-GPT not finetuned} provides strong performance out of the box, useful for fast, zero-shot forecasting such as Chronos bolt-small, but a bit worse.
 \end{itemize}
 \begin{itemize}
-    \item LSTM is a viable baseline but lacks the accuracy of Time-GPT. However with the right features and finetuning could be improved.
+    \item \textbf{Chronos-t5-base} is more limited in forecasting range and overall precision but captures trends well.
+\end{itemize}
+\begin{itemize}
+    \item \textbf{LSTM} is a viable baseline but lacks the accuracy of Time-GPT. However with the right features and finetuning could be improved.
 \end{itemize}
  
  These findings emphasize the practical benefits of using large, pre-trained models for time series forecasting -particularly when ease of deployment and predictive performance are both critical.
